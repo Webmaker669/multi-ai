@@ -1,9 +1,9 @@
 name: Request Info Workflow
 
-# 1. Trigger the workflow manually
+# 1. Trigger the workflow manually via the GitHub Web UI
 on:
   workflow_dispatch:
-    # 2. Define the things you want to request
+    # 2. Define the exact form inputs you want to request from the user
     inputs:
       environment:
         description: 'Target Environment'
@@ -27,12 +27,15 @@ on:
 
 jobs:
   process-request:
+    # Uses the current standard image label
     runs-on: ubuntu-latest
+    
     steps:
+      # Pulls your repository files onto the runner machine
       - name: Checkout repository
         uses: actions/checkout@v4.2.2
 
-      # 3. Reference the requested information using the github.event.inputs context
+      # 3. Accesses and outputs the requested user inputs via the github.event.inputs context
       - name: Output Requested Details
         run: |
           echo "Deploying to environment: ${{ github.event.inputs.environment }}"
