@@ -1,0 +1,40 @@
+name: Request Info Workflow
+
+# 1. Trigger the workflow manually
+on:
+  workflow_dispatch:
+    # 2. Define the things you want to request
+    inputs:
+      environment:
+        description: 'Target Environment'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
+          
+      ticket_id:
+        description: 'Jira or Issue Ticket ID'
+        required: true
+        type: string
+        
+      run_migrations:
+        description: 'Run database migrations?'
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  process-request:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 3. Reference the requested information using the github.event.inputs context
+      - name: Output Requested Details
+        run: |
+          echo "Deploying to environment: ${{ github.event.inputs.environment }}"
+          echo "Associated Ticket: ${{ github.event.inputs.ticket_id }}"
+          echo "Run migrations option: ${{ github.event.inputs.run_migrations }}"
