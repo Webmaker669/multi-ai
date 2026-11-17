@@ -1,9 +1,9 @@
 const userText = (process.env.USER_TEXT || "").trim().toLowerCase();
-const spacedText = userText.replace(/([+\-*/])/g, ' $1 ');
+const spacedText = userText.replace(/([+\-*/%^x])/g, ' $1 ');
 const words = spacedText.split(/\s+/);
 
 const op = words[1];
-if (op === "+" || op === "-" || op === "*" || op === "/") {
+if (op === "+" || op === "-" || op === "*" || op === "x" || op === "/" || op === "%" || op === "^") {
   const num1 = Number(words[0]);
   const num2 = Number(words[2]);
 
@@ -11,7 +11,9 @@ if (op === "+" || op === "-" || op === "*" || op === "/") {
     let result;
     if (op === "+") result = num1 + num2;
     else if (op === "-") result = num1 - num2;
-    else if (op === "*") result = num1 * num2;
+    else if (op === "*" || op === "x") result = num1 * num2;
+    else if (op === "%") result = num1 % num2;
+    else if (op === "^") result = Math.pow(num1, num2);
     else if (op === "/") {
       if (num2 === 0) {
         console.log("Error: Cannot divide by zero.");
@@ -27,7 +29,9 @@ if (op === "+" || op === "-" || op === "*" || op === "/") {
 }
 
 if (userText === "hi") {
-  console.warn("hello");
+  const responses = ["hello", "hi there!", "greetings!", "hey!", "sup!", "What's up!", "Hello stranger!", "Yo!"];
+  const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+  console.warn(randomResponse);
 }
 
 if (userText.includes("deploy")) {
