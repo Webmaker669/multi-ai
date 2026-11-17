@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 const userText = (process.env.USER_TEXT || "").trim().toLowerCase();
 const spacedText = userText.replace(/([+\-*/%^x])/g, ' $1 ');
 const words = spacedText.split(/\s+/);
@@ -29,11 +31,25 @@ if (op === "+" || op === "-" || op === "*" || op === "x" || op === "/" || op ===
 }
 
 if (userText === "hi") {
-  const responses = ["hello", "hi there!", "greetings!", "hey!", "sup!", "What's up!", "Hello stranger!", "Yo!"];
+  const responses = ["hello", "hi there!", "greetings!", "hey!"];
   const randomResponse = responses[Math.floor(Math.random() * responses.length)];
   console.warn(randomResponse);
 }
 
 if (userText.includes("deploy")) {
   console.log("Deployment keyword detected!");
+}
+
+if (userText.startsWith("search ")) {
+  const searchTerm = userText.replace("search ", "").trim();
+  try {
+    const fileContent = fs.readFileSync("search.txt", "utf8");
+    if (fileContent.toLowerCase().includes(searchTerm)) {
+      console.log(`Found "${searchTerm}" in search.txt!`);
+    } else {
+      console.log(`"${searchTerm}" not found in search.txt.`);
+    }
+  } catch (err) {
+    console.log("Error: search.txt file not found.");
+  }
 }
