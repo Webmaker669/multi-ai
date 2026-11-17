@@ -1,0 +1,4 @@
+hi = ["hey","hello","hi","yo","what's up"]
+bye = ["later","bye","goodbye","another time"]
+sure = ["ok","yes","okay","sure","ight"]
+no = ["no","cant","nah","naw","no way"]
