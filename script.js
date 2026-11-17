@@ -1,19 +1,28 @@
 const userText = (process.env.USER_TEXT || "").trim().toLowerCase();
-const words = userText.split(/\s+/);
+const spacedText = userText.replace(/([+\-*/])/g, ' $1 ');
+const words = spacedText.split(/\s+/);
 
-// Check if the 2nd word (index 1) is a plus sign
-if (words[1] === "+") {
-  console.log("Plus operator detected in the second position!");
-
-  // Convert the 1st (index 0) and 3rd (index 2) words to numbers
+const op = words[1];
+if (op === "+" || op === "-" || op === "*" || op === "/") {
   const num1 = Number(words[0]);
   const num2 = Number(words[2]);
 
-  // Check if both are valid numbers and add them
   if (!isNaN(num1) && !isNaN(num2)) {
-    console.log("Math Result:", num1 + num2);
+    let result;
+    if (op === "+") result = num1 + num2;
+    else if (op === "-") result = num1 - num2;
+    else if (op === "*") result = num1 * num2;
+    else if (op === "/") {
+      if (num2 === 0) {
+        console.log("Error: Cannot divide by zero.");
+        return;
+      }
+      result = num1 / num2;
+    }
+
+    console.log(`Math Result (${num1} ${op} ${num2}):`, result);
   } else {
-    console.log("Error: Expected numbers around the + operator.");
+    console.log("Error: Expected numbers around the operator.");
   }
 }
 
