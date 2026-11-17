@@ -1,22 +1,21 @@
-name: Manual Input Workflow
+name: Process Input with JS
 
-# This trigger allows the workflow to be run manually from the GitHub Actions tab
 on:
   workflow_dispatch:
     inputs:
       user_message:
-        description: 'Enter a message for the workflow'
+        description: 'Enter your message'
         required: true
-        default: 'Hello, World!'
         type: string
 
 jobs:
-  run-task:
+  run-js:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Print the user input
-        run: |
-          echo "The message you entered is: ${{ github.event.inputs.user_message }}"
+      - name: Run Node.js script
+        env:
+          USER_TEXT: ${{ github.event.inputs.user_message }}
+        run: node script.js
