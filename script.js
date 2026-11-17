@@ -30,11 +30,37 @@ if (op === "+" || op === "-" || op === "*" || op === "x" || op === "/" || op ===
   }
 }
 
-if (userText === "hi") {
-  const responses = ["hello", "hi there!", "greetings!", "hey!"];
-  const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-  console.warn(randomResponse);
-}
+try {
+  const alphabetContent = fs.readFileSync("alphabet.txt", "utf8");
+  const lines = alphabetContent.split(/\r?\n/);
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (trimmed.toLowerCase().startsWith(userText + " =") || trimmed.toLowerCase().startsWith(userText + "=")) {
+      console.log(trimmed);
+    }
+  }
+} catch (err) {}
+
+try {
+  const wordsContent = fs.readFileSync("words.txt", "utf8");
+  const lines = wordsContent.split(/\r?\n/);
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (!trimmed) continue;
+    const parts = trimmed.split("=");
+    if (parts.length >= 2) {
+      const key = parts[0].trim().toLowerCase();
+      if (userText === key) {
+        const arrayStr = parts.slice(1).join("=").trim();
+        const responses = JSON.parse(arrayStr);
+        if (Array.isArray(responses) && responses.length > 0) {
+          const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+          console.log(randomResponse);
+        }
+      }
+    }
+  }
+} catch (err) {}
 
 if (userText.includes("deploy")) {
   console.log("Deployment keyword detected!");
@@ -43,13 +69,13 @@ if (userText.includes("deploy")) {
 if (userText.startsWith("search ")) {
   const searchTerm = userText.replace("search ", "").trim();
   try {
-    const fileContent = fs.readFileSync("alphabet.txt", "utf8");
+    const fileContent = fs.readFileSync("search.txt", "utf8");
     if (fileContent.toLowerCase().includes(searchTerm)) {
-      console.log(`Found "${searchTerm}" in alphabet.txt!`);
+      console.log(`Found "${searchTerm}" in search.txt!`);
     } else {
-      console.log(`"${searchTerm}" not found in alphabet.txt.`);
+      console.log(`"${searchTerm}" not found in search.txt.`);
     }
   } catch (err) {
-    console.log("Error: alphabet.txt file not found.");
+    console.log("Error: search.txt file not found.");
   }
 }
