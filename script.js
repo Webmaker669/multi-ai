@@ -2,7 +2,7 @@
 const userText = (process.env.USER_TEXT || "").trim().toLowerCase();
 
 if (userText === "hi") {
-  console.log("hello");
+  console.warn("hello");
 }
 
 if (userText.includes("deploy")) {
