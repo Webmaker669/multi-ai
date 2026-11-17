@@ -50,10 +50,14 @@ try {
     const parts = trimmed.split("=");
     if (parts.length >= 2) {
       const key = parts[0].trim().toLowerCase();
-      if (userText === key) {
-        const arrayStr = parts.slice(1).join("=").trim();
-        const responses = JSON.parse(arrayStr);
-        if (Array.isArray(responses) && responses.length > 0) {
+      const arrayStr = parts.slice(1).join("=").trim();
+      const responses = JSON.parse(arrayStr);
+
+      if (Array.isArray(responses)) {
+        if (userText === key) {
+          const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+          console.log(randomResponse);
+        } else if (responses.map(r => r.toLowerCase()).includes(userText)) {
           const randomResponse = responses[Math.floor(Math.random() * responses.length)];
           console.log(randomResponse);
         }
