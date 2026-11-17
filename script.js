@@ -43,13 +43,13 @@ if (userText.includes("deploy")) {
 if (userText.startsWith("search ")) {
   const searchTerm = userText.replace("search ", "").trim();
   try {
-    const fileContent = fs.readFileSync("search.txt", "utf8");
+    const fileContent = fs.readFileSync("alphabet.txt", "utf8");
     if (fileContent.toLowerCase().includes(searchTerm)) {
-      console.log(`Found "${searchTerm}" in search.txt!`);
+      console.log(`Found "${searchTerm}" in alphabet.txt!`);
     } else {
-      console.log(`"${searchTerm}" not found in search.txt.`);
+      console.log(`"${searchTerm}" not found in alphabet.txt.`);
     }
   } catch (err) {
-    console.log("Error: search.txt file not found.");
+    console.log("Error: alphabet.txt file not found.");
   }
 }
